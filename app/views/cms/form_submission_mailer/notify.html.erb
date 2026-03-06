@@ -1,0 +1,14 @@
+<h2><%= t(".title", page: @page.display_title) %></h2>
+
+<table>
+  <% @fields.each do |field| %>
+    <tr>
+      <td><strong><%= field.label %></strong></td>
+      <td><%= @submission.data[field.field_name] %></td>
+    </tr>
+  <% end %>
+</table>
+
+<p style="color: #999; font-size: 12px;">
+  <%= t(".submitted_at") %> <%= cms_datetime(@submission.created_at) %>
+</p>

@@ -1,0 +1,47 @@
+<h1><%= t(".title") %></h1>
+
+<p>
+  <%= link_to t(".new"), new_admin_section_path(locale: params[:locale]) %>
+  |
+  <%= link_to t(".back"), admin_pages_path(locale: params[:locale]) %>
+</p>
+
+<p><%= t(".intro") %></p>
+
+<% if @sections.empty? %>
+  <p><%= t(".empty") %></p>
+<% else %>
+  <table>
+    <thead>
+      <tr>
+        <th><%= t(".kind") %></th>
+        <th><%= t(".title_heading") %></th>
+        <th><%= t(".usage") %></th>
+        <th><%= t(".status") %></th>
+        <th><%= t(".actions") %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @sections.each do |section| %>
+        <tr>
+          <td><%= cms_section_kind_label(section.kind) %></td>
+          <td><%= section.title.presence || t(".no_title") %></td>
+          <td>
+            <% if section.pages.any? %>
+              <%= section.pages.map(&:display_title).join(", ") %>
+            <% else %>
+              <%= t(".unused") %>
+            <% end %>
+          </td>
+          <td><%= section.enabled? ? t(".enabled") : t(".disabled") %></td>
+          <td>
+            <%= link_to t(".edit"), edit_admin_section_path(section, locale: params[:locale]) %>
+            <%= link_to t(".delete"),
+                        admin_section_path(section, locale: params[:locale]),
+                        data: { turbo_method: :delete, turbo_confirm: t(".delete_confirm") } %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

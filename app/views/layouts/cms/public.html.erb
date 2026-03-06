@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title><%= content_for?(:page_title) ? yield(:page_title) : "CMS" %></title>
+    <meta name="description" content="<%= content_for?(:page_description) ? yield(:page_description) : "" %>">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= yield :head %>
+  </head>
+  <body>
+    <%= yield %>
+  </body>
+</html>

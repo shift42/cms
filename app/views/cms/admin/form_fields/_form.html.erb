@@ -1,0 +1,46 @@
+<%= form_with model: [:admin, @page, field], local: true do |f| %>
+  <p>
+    <%= f.label :label %><br>
+    <%= f.text_field :label %>
+  </p>
+
+  <p>
+    <%= f.label :field_name, t(".field_name") %><br>
+    <%= f.text_field :field_name %>
+  </p>
+
+  <p>
+    <%= f.label :kind %><br>
+    <%= f.select :kind, Cms::FormField::KINDS.map { |k| [cms_form_field_kind_label(k), k] } %>
+  </p>
+
+  <p>
+    <%= f.label :placeholder %><br>
+    <%= f.text_field :placeholder %>
+  </p>
+
+  <p>
+    <%= f.label :hint, t(".hint") %><br>
+    <%= f.text_field :hint %>
+  </p>
+
+  <p>
+    <%= f.label :required %>
+    <%= f.check_box :required %>
+  </p>
+
+  <p>
+    <%= f.label :options, t(".options") %><br>
+    <%= f.text_area :options, value: Array(field.options).join("\n"), rows: 5 %>
+  </p>
+
+  <p>
+    <%= f.label :position %><br>
+    <%= f.number_field :position %>
+  </p>
+
+  <p>
+    <%= f.submit %>
+    <%= link_to t(".cancel"), admin_page_form_fields_path(@page) %>
+  </p>
+<% end %>

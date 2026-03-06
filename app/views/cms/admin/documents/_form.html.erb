@@ -1,0 +1,24 @@
+<%= form_with model: [:admin, document], local: true do |f| %>
+  <p>
+    <%= f.label :title %><br>
+    <%= f.text_field :title %>
+  </p>
+
+  <p>
+    <%= f.label :file, t(".file") %><br>
+    <%= f.file_field :file, accept: ".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.csv,.zip" %>
+    <% if document.file.attached? %>
+      <br><%= t(".current") %>: <%= link_to document.file.filename.to_s, url_for(document.file) %>
+    <% end %>
+  </p>
+
+  <p>
+    <%= f.label :description %><br>
+    <%= f.text_area :description, rows: 3 %>
+  </p>
+
+  <p>
+    <%= f.submit %>
+    <%= link_to t(".cancel"), admin_documents_path %>
+  </p>
+<% end %>

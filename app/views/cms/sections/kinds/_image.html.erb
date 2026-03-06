@@ -1,0 +1,19 @@
+<section class="cms-section cms-section--image">
+  <% if section.title.present? %>
+    <h2><%= section.title %></h2>
+  <% end %>
+  <% images = section.image_assets %>
+  <% if images.present? %>
+    <div class="cms-section__image-grid">
+      <% images.each do |image| %>
+        <figure>
+          <%= cms_image_tag image, alt: image.alt_text.presence || section.title.to_s, loading: "lazy" %>
+          <% caption = image.caption.presence %>
+          <% if caption.present? %>
+            <figcaption><%= caption %></figcaption>
+          <% end %>
+        </figure>
+      <% end %>
+    </div>
+  <% end %>
+</section>

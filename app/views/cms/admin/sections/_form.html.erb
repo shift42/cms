@@ -1,0 +1,128 @@
+<%= form_with model: @section, url: (
+      if @page
+        @section.new_record? ? admin_page_sections_path(@page) : admin_page_section_path(@page, @section)
+      else
+        @section.new_record? ? admin_sections_path : admin_section_path(@section)
+      end
+    ) do |f| %>
+  <% if @section.errors.any? %>
+    <div class="cms-form__errors">
+      <ul>
+        <% @section.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= f.hidden_field :kind %>
+
+  <div class="cms-form__field">
+    <label class="cms-form__label"><%= t(".kind") %></label>
+    <span class="cms-badge"><%= cms_section_kind_label(@section.kind) %></span>
+  </div>
+
+  <div class="cms-form__field">
+    <%= f.label :enabled, class: "cms-form__label" %>
+    <%= f.check_box :enabled, class: "cms-checkbox" %>
+  </div>
+
+  <% translation = @section.translations.find { |record| record.locale == @translation_locale.to_s } || @section.translations.build(locale: @translation_locale) %>
+
+  <% case @section.kind %>
+  <% when "rich_text" %>
+    <%= f.fields_for :translations, translation do |tf| %>
+      <%= tf.hidden_field :id if tf.object.persisted? %>
+      <%= tf.hidden_field :locale, value: @translation_locale %>
+
+      <div class="cms-form__field">
+        <%= tf.label :title, class: "cms-form__label" %>
+        <%= tf.text_field :title, class: "cms-input" %>
+      </div>
+
+      <div class="cms-form__field">
+        <%= tf.label :content, t(".content"), class: "cms-form__label" %>
+        <%= tf.rich_text_area :content, class: "cms-input cms-input--textarea" %>
+      </div>
+    <% end %>
+  <% when "image" %>
+    <div class="cms-form__field">
+      <%= label_tag "section_image_ids", t(".select_images"), class: "cms-form__label" %>
+      <%= hidden_field_tag "section[image_ids][]", "" %>
+      <% cms_section_image_options(@section.site).each do |label, value| %>
+        <div>
+          <%= check_box_tag "section[image_ids][]", value, Array(@section.image_ids).map(&:to_s).include?(value.to_s) %>
+          <%= label_tag nil, label %>
+        </div>
+      <% end %>
+      <%= image_library_actions %>
+    </div>
+  <% when "hero" %>
+    <div class="cms-form__field">
+      <%= f.label :background_color, class: "cms-form__label" %>
+      <%= f.color_field :background_color, class: "cms-input" %>
+    </div>
+
+    <div class="cms-form__field">
+      <%= f.label :cta_url, class: "cms-form__label" %>
+      <%= f.url_field :cta_url, class: "cms-input" %>
+    </div>
+
+    <%= f.fields_for :translations, translation do |tf| %>
+      <%= tf.hidden_field :id if tf.object.persisted? %>
+      <%= tf.hidden_field :locale, value: @translation_locale %>
+
+      <div class="cms-form__field">
+        <%= tf.label :title, class: "cms-form__label" %>
+        <%= tf.text_field :title, class: "cms-input" %>
+      </div>
+
+      <div class="cms-form__field">
+        <%= tf.label :subtitle, t(".cta_text"), class: "cms-form__label" %>
+        <%= tf.text_field :subtitle, class: "cms-input" %>
+      </div>
+
+      <div class="cms-form__field">
+        <%= tf.label :content, t(".content"), class: "cms-form__label" %>
+        <%= tf.rich_text_area :content, class: "cms-input cms-input--textarea" %>
+      </div>
+    <% end %>
+  <% when "cta" %>
+    <div class="cms-form__field">
+      <%= f.label :button_url, class: "cms-form__label" %>
+      <%= f.url_field :button_url, class: "cms-input" %>
+    </div>
+
+    <div class="cms-form__field">
+      <%= f.label :alignment, class: "cms-form__label" %>
+      <%= f.select :alignment, [["Left", "left"], ["Center", "center"], ["Right", "right"]], {}, class: "cms-input" %>
+    </div>
+
+    <%= f.fields_for :translations, translation do |tf| %>
+      <%= tf.hidden_field :id if tf.object.persisted? %>
+      <%= tf.hidden_field :locale, value: @translation_locale %>
+
+      <div class="cms-form__field">
+        <%= tf.label :title, class: "cms-form__label" %>
+        <%= tf.text_field :title, class: "cms-input" %>
+      </div>
+
+      <div class="cms-form__field">
+        <%= tf.label :subtitle, t(".button_text"), class: "cms-form__label" %>
+        <%= tf.text_field :subtitle, class: "cms-input" %>
+      </div>
+
+      <div class="cms-form__field">
+        <%= tf.label :content, t(".content"), class: "cms-form__label" %>
+        <%= tf.rich_text_area :content, class: "cms-input cms-input--textarea" %>
+      </div>
+    <% end %>
+  <% end %>
+
+  <div class="cms-form__actions">
+    <%= f.submit @section.new_record? ? t(".add") : t(".update"), class: "cms-btn cms-btn--primary" %>
+    <%= link_to t(".cancel"),
+                (@page ? admin_page_path(@page, locale: @translation_locale) : admin_sections_path(locale: @translation_locale)),
+                class: "cms-btn" %>
+  </div>
+<% end %>

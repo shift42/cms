@@ -1,26 +1,29 @@
+# frozen_string_literal: true
+
 require_relative "lib/cms/version"
 
 Gem::Specification.new do |spec|
   spec.name        = "cms"
   spec.version     = Cms::VERSION
-  spec.authors     = [ "Evangelos Giataganas" ]
-  spec.email       = [ "e.giataganas@gmail.com" ]
-  spec.homepage    = "TODO"
-  spec.summary     = "TODO: Summary of Cms."
-  spec.description = "TODO: Description of Cms."
+  spec.authors     = ["shift42"]
+  spec.email       = ["hello@shift42.io"]
+  spec.summary     = "Modular, mountable CMS engine for Rails apps"
+  spec.description = "A mountable Rails CMS engine. Multi-site, multilingual, content blocks, " \
+                     "page tree, media management, forms, headless JSON API, and webhooks."
+  spec.homepage    = "https://github.com/shift42/cms"
   spec.license     = "MIT"
+  spec.required_ruby_version = ">= 3.2"
+  spec.require_paths = ["lib"]
 
-  # Prevent pushing this gem to RubyGems.org. To allow pushes either set the "allowed_push_host"
-  # to allow pushing to a single host or delete this section to allow pushing to any host.
-  spec.metadata["allowed_push_host"] = "TODO: Set to 'http://mygemserver.com'"
-
-  spec.metadata["homepage_uri"] = spec.homepage
-  spec.metadata["source_code_uri"] = "TODO: Put your gem's public repo URL here."
-  spec.metadata["changelog_uri"] = "TODO: Put your gem's CHANGELOG.md URL here."
-
-  spec.files = Dir.chdir(File.expand_path(__dir__)) do
-    Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
+  spec.files = Dir.chdir(__dir__) do
+    Dir["{app,bin,config,db,lib}/**/*", "MIT-LICENSE", "README.md", "Rakefile", "cms.gemspec"]
   end
 
-  spec.add_dependency "rails", ">= 8.1.2"
+  spec.add_dependency "actiontext", ">= 7.1", "< 9.0"
+  spec.add_dependency "discard", "~> 1.4"
+  spec.add_dependency "importmap-rails", ">= 1.2"
+  spec.add_dependency "rails", ">= 7.1", "< 9.0"
+  spec.add_dependency "stimulus-rails", ">= 1.3"
+  spec.add_dependency "turbo-rails", ">= 1.5"
+  spec.metadata["rubygems_mfa_required"] = "true"
 end

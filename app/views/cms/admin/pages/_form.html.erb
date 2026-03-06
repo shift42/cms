@@ -1,0 +1,116 @@
+<%= form_with model: [:admin, page] do |f| %>
+  <p>
+    <%= f.label :parent_id, t(".parent_page") %><br>
+    <%= f.select :parent_id, @parent_options, { include_blank: t(".no_parent") } %>
+  </p>
+
+  <p>
+    <%= f.label :slug %><br>
+    <%= f.text_field :slug %>
+  </p>
+
+  <p>
+    <%= f.label :template_key, t(".template") %><br>
+    <%= f.select :template_key, Cms::Page.template_keys.map { |key| [cms_page_template_label(key), key] } %>
+  </p>
+
+  <p>
+    <%= f.label :status %><br>
+    <%= f.select :status, Cms::Page.statuses.keys.map { |key| [cms_page_status_label(key), key] } %>
+  </p>
+
+  <p>
+    <%= f.label :position %><br>
+    <%= f.number_field :position %>
+  </p>
+
+  <p>
+    <%= f.label :home %>
+    <%= f.check_box :home %>
+  </p>
+
+  <p>
+    <%= f.label :show_in_header %>
+    <%= f.check_box :show_in_header %>
+  </p>
+
+  <p>
+    <%= f.label :show_in_footer %>
+    <%= f.check_box :show_in_footer %>
+  </p>
+
+  <p>
+    <%= f.label :nav_group %><br>
+    <%= f.text_field :nav_group %>
+  </p>
+
+  <p>
+    <%= f.label :nav_order %><br>
+    <%= f.number_field :nav_order %>
+  </p>
+
+  <p>
+    <%= f.label :footer_order %><br>
+    <%= f.number_field :footer_order %>
+  </p>
+
+  <hr>
+
+  <%= f.fields_for :page_translations do |t| %>
+    <h3><%= I18n.t("cms.admin.pages.form.translation", locale: t.object.locale) %></h3>
+
+    <%= t.hidden_field :locale %>
+
+    <p>
+      <%= t.label :title, I18n.t("cms.admin.pages.form.translation_title") %><br>
+      <%= t.text_field :title %>
+    </p>
+
+    <p>
+      <%= t.label :seo_title, I18n.t("cms.admin.pages.form.seo_title") %><br>
+      <%= t.text_field :seo_title %>
+    </p>
+
+    <p>
+      <%= t.label :seo_description, I18n.t("cms.admin.pages.form.seo_description") %><br>
+      <%= t.text_area :seo_description, rows: 3 %>
+    </p>
+  <% end %>
+
+  <p>
+    <%= f.label :hero_image %><br>
+    <%= f.file_field :hero_image, accept: "image/*" %>
+    <% if page.hero_image.attached? %>
+      <br>
+      <%= image_tag cms_attachment_path(page.hero_image), alt: page.display_title, style: "max-width: 280px; height: auto;" %>
+      <br>
+      <label>
+        <%= check_box_tag "page[remove_hero_image]", "1" %>
+        <%= t(".remove_hero_image") %>
+      </label>
+    <% end %>
+  </p>
+
+  <p>
+    <%= f.label :media_files, t(".media_files") %><br>
+    <%= f.file_field :media_files, multiple: true, accept: "image/*,.pdf,.doc,.docx" %>
+    <% if page.media_files.attached? %>
+      <br>
+      <%= t(".current_files") %>:
+      <ul>
+        <% page.media_files.each do |file| %>
+          <li><%= file.filename.to_s %></li>
+        <% end %>
+      </ul>
+      <label>
+        <%= check_box_tag "page[remove_media_files]", "1" %>
+        <%= t(".remove_media_files") %>
+      </label>
+    <% end %>
+  </p>
+
+  <p>
+    <%= f.submit %>
+    <%= link_to t(".cancel"), admin_pages_path(locale: @translation_locale) %>
+  </p>
+<% end %>

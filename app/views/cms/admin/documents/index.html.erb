@@ -1,0 +1,37 @@
+<h1><%= t(".title") %></h1>
+
+<p><%= link_to t(".upload"), new_admin_document_path %></p>
+
+<% if @documents.empty? %>
+  <p><%= t(".empty") %></p>
+<% else %>
+  <table>
+    <thead>
+      <tr>
+        <th><%= t(".title_heading") %></th>
+        <th><%= t(".file") %></th>
+        <th><%= t(".description") %></th>
+        <th><%= t(".actions") %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @documents.each do |doc| %>
+        <tr>
+          <td><%= doc.title %></td>
+          <td>
+            <% if doc.file.attached? %>
+              <%= link_to doc.file.filename.to_s, url_for(doc.file) %>
+            <% end %>
+          </td>
+          <td><%= doc.description %></td>
+          <td>
+            <%= link_to t(".edit"), edit_admin_document_path(doc) %>
+            <%= link_to t(".delete"),
+                        admin_document_path(doc),
+                        data: { turbo_method: :delete, turbo_confirm: t(".delete_confirm") } %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

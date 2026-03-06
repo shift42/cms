@@ -1,0 +1,9 @@
+<%= turbo_frame_tag "cms-sections-list" do %>
+  <div data-controller="sortable"
+       data-sortable-url-value="<%= admin_page_sort_sections_path(page) %>"
+       data-sortable-handle-value=".cms-section-item__handle">
+    <% page_sections.each do |page_section| %>
+      <%= render "cms/admin/sections/section", page_section: page_section %>
+    <% end %>
+  </div>
+<% end %>

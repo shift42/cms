@@ -1,0 +1,97 @@
+<% content_for :page_title, "#{@section.title.presence || t("cms.admin.sections.index.no_title")} - CMS" %>
+<% content_for :title, @section.title.presence || t("cms.admin.sections.index.no_title") %>
+
+<div class="cms-stack">
+  <section class="cms-panel">
+    <h2><%= t("cms.admin.sections.show.details") %></h2>
+
+    <p><strong><%= t("cms.admin.sections.index.kind") %>:</strong> <span class="cms-badge"><%= cms_section_kind_label(@section.kind) %></span></p>
+    <p><strong><%= t("cms.admin.sections.index.status") %>:</strong> <%= @section.enabled? ? t("cms.admin.sections.index.enabled") : t("cms.admin.sections.index.disabled") %></p>
+    <p><strong><%= t("cms.admin.sections.show.global") %>:</strong> <%= cms_yes_no(@section.global?) %></p>
+
+    <% if @section.kind == "hero" %>
+      <h3><%= t("cms.admin.sections.form.settings") %></h3>
+      <% if @section.background_color.present? %>
+        <p><strong><%= Cms::Section.human_attribute_name(:background_color) %>:</strong> <code><%= @section.background_color %></code></p>
+      <% end %>
+      <% if @section.cta_url.present? %>
+        <p><strong><%= Cms::Section.human_attribute_name(:cta_url) %>:</strong> <code><%= @section.cta_url %></code></p>
+      <% end %>
+    <% elsif @section.kind == "cta" %>
+      <h3><%= t("cms.admin.sections.form.settings") %></h3>
+      <% if @section.button_url.present? %>
+        <p><strong><%= Cms::Section.human_attribute_name(:button_url) %>:</strong> <code><%= @section.button_url %></code></p>
+      <% end %>
+      <% if @section.alignment.present? %>
+        <p><strong><%= Cms::Section.human_attribute_name(:alignment) %>:</strong> <%= @section.alignment.capitalize %></p>
+      <% end %>
+    <% end %>
+
+    <h3><%= t("cms.admin.sections.index.usage") %></h3>
+    <% if @section.pages.any? %>
+      <ul>
+        <% @section.pages.each do |page| %>
+          <li><%= link_to page.display_title, admin_page_path(page, locale: @translation_locale) %></li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p><%= t("cms.admin.sections.index.unused") %></p>
+    <% end %>
+  </section>
+
+  <section class="cms-panel">
+    <h2><%= t("cms.admin.pages.show.translations") %></h2>
+    <% locales = [@translation_locale, *@section.available_locales].compact.uniq %>
+    <% translations_by_locale = @section.translations.index_by(&:locale) %>
+
+    <% locales.each do |locale| %>
+      <% translation = translations_by_locale[locale.to_s] %>
+      <article class="cms-panel">
+        <p><strong><%= t("locales.#{locale}", default: locale.to_s.upcase) %></strong></p>
+        <% if translation %>
+          <p><strong><%= t("cms.admin.sections.form.title") %>:</strong> <%= translation.title.presence || t("cms.shared.empty_value") %></p>
+
+          <% if @section.kind == "hero" && translation.subtitle.present? %>
+            <p><strong><%= t("cms.admin.sections.form.cta_text") %>:</strong> <%= translation.subtitle %></p>
+          <% end %>
+
+          <% if @section.kind == "cta" && translation.subtitle.present? %>
+            <p><strong><%= t("cms.admin.sections.form.button_text") %>:</strong> <%= translation.subtitle %></p>
+          <% end %>
+
+          <p><strong><%= t("cms.admin.sections.form.content") %>:</strong></p>
+          <% if translation.content.present? %>
+            <div class="cms-panel"><%= translation.content %></div>
+          <% else %>
+            <p><%= t("cms.shared.empty_value") %></p>
+          <% end %>
+        <% else %>
+          <p><%= t("cms.admin.sections.show.no_translation") %></p>
+        <% end %>
+      </article>
+    <% end %>
+
+    <% if @section.kind == "image" && @section.image_assets.any? %>
+      <section class="cms-panel">
+        <h3><%= t("cms.admin.sections.form.select_images") %></h3>
+        <div class="cms-grid">
+          <% @section.image_assets.each do |image| %>
+            <article>
+              <%= image_tag image.file, alt: image.alt_text.presence || image.display_title, style: "max-width: 100%; height: auto;" %>
+              <p><%= image.display_title %></p>
+            </article>
+          <% end %>
+        </div>
+      </section>
+    <% end %>
+  </section>
+</div>
+
+<div class="cms-form__actions">
+  <%= link_to t("cms.admin.sections.index.back", default: "Back"), admin_sections_path(locale: @translation_locale), class: "cms-btn" %>
+  <%= link_to t("cms.admin.sections.index.edit"), edit_admin_section_path(@section, locale: @translation_locale), class: "cms-btn cms-btn--primary" %>
+  <%= link_to t("cms.admin.sections.index.delete"),
+              admin_section_path(@section, locale: @translation_locale),
+              class: "cms-btn",
+              data: { turbo_method: :delete, turbo_confirm: t("cms.admin.sections.index.delete_confirm") } %>
+</div>

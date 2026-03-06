@@ -1,0 +1,38 @@
+<h1><%= t(".title", page: @page.display_title) %></h1>
+
+<p>
+  <%= link_to t(".back"), admin_page_form_fields_path(@page) %>
+  |
+  <%= link_to t(".export"), admin_page_form_submissions_path(@page, format: :csv) %>
+</p>
+
+<% if @submissions.empty? %>
+  <p><%= t(".empty") %></p>
+<% else %>
+  <table>
+    <thead>
+      <tr>
+        <th><%= t(".submitted_at") %></th>
+        <% @fields.each do |field| %>
+          <th><%= field.label %></th>
+        <% end %>
+        <th><%= t(".actions") %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @submissions.each do |sub| %>
+        <tr>
+          <td><%= cms_datetime(sub.created_at) %></td>
+          <% @fields.each do |field| %>
+            <td><%= sub.data[field.field_name] %></td>
+          <% end %>
+          <td>
+            <%= link_to t(".delete"),
+                        admin_page_form_submission_path(@page, sub),
+                        data: { turbo_method: :delete, turbo_confirm: t(".delete_confirm") } %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

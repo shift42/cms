@@ -1,0 +1,65 @@
+---
+en:
+  activerecord:
+    attributes:
+      cms/api_key:
+        active: Active
+        name: Name
+      cms/document:
+        description: Description
+        file: File
+        title: Title
+      cms/form_field:
+        field_name: Field name
+        hint: Hint
+        kind: Kind
+        label: Label
+        options: Options
+        placeholder: Placeholder
+        position: Position
+        required: Required
+      cms/image:
+        file: Image file
+        title: Title
+      cms/image_translation:
+        alt_text: Alt text
+        caption: Caption
+        locale: Locale
+      cms/page:
+        footer_order: Footer order
+        hero_image: Hero image
+        home: Home page
+        media_files: Gallery/attachments
+        nav_group: Nav group
+        nav_order: Nav order
+        parent_id: Parent page
+        position: Position
+        show_in_footer: Show in footer
+        show_in_header: Show in header
+        slug: Slug
+        status: Status
+        template_key: Template
+      cms/page_translation:
+        locale: Locale
+        seo_description: SEO description
+        seo_title: SEO title
+        title: Title
+      cms/section:
+        enabled: Enabled
+        global: Global section
+        kind: Kind
+      cms/section_translation:
+        content: Content
+        locale: Locale
+        title: Title
+      cms/site:
+        default_locale: Default locale
+        logo: Logo
+        name: Name
+        published: Published
+        slug: Slug
+      cms/webhook:
+        active: Active
+        events: Events
+        secret: Secret
+        url: Endpoint URL

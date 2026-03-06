@@ -1,0 +1,41 @@
+<h1><%= t(".title", page: @page.display_title) %></h1>
+
+<p>
+  <%= link_to t(".back"), admin_page_path(@page) %>
+  |
+  <%= link_to t(".submissions"), admin_page_form_submissions_path(@page) %>
+  |
+  <%= link_to t(".new"), new_admin_page_form_field_path(@page) %>
+</p>
+
+<% if @fields.empty? %>
+  <p><%= t(".empty") %></p>
+<% else %>
+  <table>
+    <thead>
+      <tr>
+        <th><%= t(".label") %></th>
+        <th><%= t(".field_name") %></th>
+        <th><%= t(".kind") %></th>
+        <th><%= t(".required") %></th>
+        <th><%= t(".actions") %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @fields.each do |field| %>
+        <tr>
+          <td><%= field.label %></td>
+          <td><code><%= field.field_name %></code></td>
+          <td><%= cms_form_field_kind_label(field.kind) %></td>
+          <td><%= cms_yes_no(field.required?) %></td>
+          <td>
+            <%= link_to t(".edit"), edit_admin_page_form_field_path(@page, field) %>
+            <%= link_to t(".delete"),
+                        admin_page_form_field_path(@page, field),
+                        data: { turbo_method: :delete, turbo_confirm: t(".delete_confirm") } %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

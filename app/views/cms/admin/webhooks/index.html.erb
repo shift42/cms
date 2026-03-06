@@ -1,0 +1,34 @@
+<h1><%= t(".title") %></h1>
+
+<p><%= link_to t(".new"), new_admin_webhook_path %></p>
+
+<% if @webhooks.any? %>
+  <table>
+    <thead>
+      <tr>
+        <th><%= t(".url") %></th>
+        <th><%= t(".events") %></th>
+        <th><%= t(".active") %></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @webhooks.each do |webhook| %>
+        <tr>
+          <td><%= webhook.url %></td>
+          <td><%= webhook.events.map { |event| cms_webhook_event_label(event) }.join(", ") %></td>
+          <td><%= cms_yes_no(webhook.active?) %></td>
+          <td>
+            <%= link_to t(".edit"), edit_admin_webhook_path(webhook) %>
+            |
+            <%= link_to t(".delete"),
+                        admin_webhook_path(webhook),
+                        data: { turbo_method: :delete, turbo_confirm: t(".delete_confirm") } %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p><%= t(".empty") %></p>
+<% end %>

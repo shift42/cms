@@ -1,0 +1,36 @@
+<%= form_with model: [:admin, image], local: true do |f| %>
+  <% translation = image.image_translations.find { |record| record.locale == @translation_locale } || image.image_translations.build(locale: @translation_locale) %>
+  <p>
+    <%= f.label :file, t(".file") %><br>
+    <%= f.file_field :file, accept: "image/*" %>
+    <% if image.file.attached? %>
+      <br>
+      <%= image_tag image.file, alt: image.display_title, style: "max-width: 280px; height: auto;" %>
+    <% end %>
+  </p>
+
+  <p>
+    <%= f.label :title %><br>
+    <%= f.text_field :title %>
+  </p>
+
+  <%= f.fields_for :image_translations, translation do |tf| %>
+    <%= tf.hidden_field :id if tf.object.persisted? %>
+    <%= tf.hidden_field :locale, value: @translation_locale %>
+
+    <p>
+      <%= tf.label :alt_text, t(".alt_text") %><br>
+      <%= tf.text_field :alt_text %>
+    </p>
+
+    <p>
+      <%= tf.label :caption %><br>
+      <%= tf.text_field :caption %>
+    </p>
+  <% end %>
+
+  <p>
+    <%= f.submit %>
+    <%= link_to t(".cancel"), admin_images_path %>
+  </p>
+<% end %>

@@ -1,0 +1,14 @@
+<section class="cms-section cms-section--hero"
+         style="<%= "background-color: #{section.background_color};" if section.background_color.present? %>">
+  <% if section.title.present? %>
+    <h1><%= section.title %></h1>
+  <% end %>
+  <% if section.content.present? %>
+    <%= section.content %>
+  <% end %>
+  <% if section.cta_text.present? && section.cta_url.present? %>
+    <a href="<%= section.cta_url %>" class="cms-hero__cta">
+      <%= section.cta_text %>
+    </a>
+  <% end %>
+</section>

@@ -1,0 +1,7 @@
+<%= t(".title", page: @page.display_title) %>
+
+<% @fields.each do |field| -%>
+<%= field.label %>: <%= @submission.data[field.field_name] %>
+<% end -%>
+
+<%= t(".submitted_at") %> <%= cms_datetime(@submission.created_at) %>
