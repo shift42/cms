@@ -3,7 +3,7 @@
 require_relative "lib/cms/version"
 
 Gem::Specification.new do |spec|
-  spec.name        = "cms"
+  spec.name        = "cms42"
   spec.version     = Cms::VERSION
   spec.authors     = ["shift42"]
   spec.email       = ["hello@shift42.io"]
