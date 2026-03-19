@@ -35,7 +35,14 @@ Rails-native, straightforward to extend, and easy for content editors to use.
 Add to your host app's `Gemfile`:
 
 ```ruby
-gem "cms", git: "https://github.com/shift42/cms"
+gem "cms42"
+```
+
+The published gem name is `cms42`, but the engine namespace remains `Cms::`.
+If you load gems manually instead of letting Bundler auto-require them, use:
+
+```ruby
+require "cms42"
 ```
 
 Install and migrate:
