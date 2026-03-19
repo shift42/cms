@@ -1,0 +1,25 @@
+<h1><%= t(".title") %></h1>
+
+<p><%= link_to t(".upload"), new_admin_image_path %></p>
+
+<% if @images.empty? %>
+  <p><%= t(".empty") %></p>
+<% else %>
+  <div class="cms-image-grid">
+    <% @images.each do |image| %>
+      <div class="cms-image-card">
+        <% if image.file.attached? %>
+          <%= image_tag image.file, alt: image.alt_text.presence || image.display_title,
+                        style: "max-width: 180px; height: 120px; object-fit: cover;" %>
+        <% end %>
+        <p><strong><%= image.display_title %></strong></p>
+        <p>
+          <%= link_to t(".edit"), edit_admin_image_path(image) %>
+          <%= link_to t(".delete"),
+                      admin_image_path(image),
+                      data: { turbo_method: :delete, turbo_confirm: t(".delete_confirm") } %>
+        </p>
+      </div>
+    <% end %>
+  </div>
+<% end %>

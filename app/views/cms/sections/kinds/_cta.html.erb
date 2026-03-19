@@ -1,0 +1,13 @@
+<section class="cms-section cms-section--cta cms-section--cta-<%= section.alignment.presence || "center" %>">
+  <% if section.title.present? %>
+    <h2><%= section.title %></h2>
+  <% end %>
+  <% if section.content.present? %>
+    <%= section.content %>
+  <% end %>
+  <% if section.button_text.present? && section.button_url.present? %>
+    <a href="<%= section.button_url %>" class="cms-cta__button">
+      <%= section.button_text %>
+    </a>
+  <% end %>
+</section>

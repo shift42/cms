@@ -1,8 +1,54 @@
-# Omakase Ruby styling for Rails
-inherit_gem: { rubocop-rails-omakase: rubocop.yml }
+AllCops:
+  NewCops: enable
+  SuggestExtensions: false
+  TargetRubyVersion: 3.2
+  Exclude:
+    - "bin/**/*"
+    - "vendor/**/*"
+    - "**/Rakefile"
+    - "spec/cms_app/db/schema.rb"
+    - "spec/cms_app/db/migrate/**/*.rb"
 
-# Overwrite or add rules to create your own house style
-#
-# # Use `[a, [b, c]]` not `[ a, [ b, c ] ]`
-# Layout/SpaceInsideArrayLiteralBrackets:
-#   Enabled: false
+Style/NumericLiterals:
+  Enabled: false
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+# Rails engines / controllers don't need YARD-style class docs
+Style/Documentation:
+  Enabled: false
+
+# Migrations, specs, serializers, HTTP jobs and helpers are legitimately verbose
+Metrics/MethodLength:
+  Max: 30
+  Exclude:
+    - "spec/cms_app/db/migrate/**/*.rb"
+    - "lib/generators/**/*.rb"
+
+Metrics/AbcSize:
+  Max: 35
+  Exclude:
+    - "spec/cms_app/db/migrate/**/*.rb"
+    - "lib/generators/**/*.rb"
+
+Metrics/ClassLength:
+  Max: 160
+  Exclude:
+    - "lib/generators/**/*.rb"
+
+Metrics/CyclomaticComplexity:
+  Max: 12
+  Exclude:
+    - "lib/generators/**/*.rb"
+
+Metrics/PerceivedComplexity:
+  Max: 12
+  Exclude:
+    - "lib/generators/**/*.rb"
+
+Metrics/BlockLength:
+  Exclude:
+    - "spec/**/*.rb"
+    - "spec/cms_app/db/migrate/**/*.rb"
+    - "config/routes.rb"

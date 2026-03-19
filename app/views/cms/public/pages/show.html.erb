@@ -1,0 +1,44 @@
+<% content_for :page_title, @page.display_meta_title %>
+<% content_for :page_description, @page.seo_description.to_s %>
+<% content_for :head do %>
+  <%= site_favicon_tag(@site) %>
+<% end %>
+
+<header class="cms-site-header">
+  <% if @site.logo.attached? %>
+    <p>
+      <%= image_tag cms_attachment_path(@site.logo), alt: @site.name, style: "max-width: 220px; height: auto;" %>
+    </p>
+  <% end %>
+
+  <nav>
+    <ul>
+      <% @header_nav_items.each do |item| %>
+        <% page = item[:page] %>
+        <% nav_children = item[:children] %>
+        <li>
+          <%= link_to page.display_title, public_site_page_path_for(@site, page) %>
+          <% if nav_children.any? %>
+            <ul>
+              <% nav_children.each do |child| %>
+                <li>
+                  <%= link_to child.display_title, public_site_page_path_for(@site, child) %>
+                </li>
+              <% end %>
+            </ul>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </nav>
+</header>
+
+<main class="cms-page-shell">
+  <%= render_page_template(@page) %>
+</main>
+
+<footer class="cms-site-footer">
+  <% @footer_pages.each do |page| %>
+    <%= link_to page.display_title, public_site_page_path_for(@site, page) %>
+  <% end %>
+</footer>

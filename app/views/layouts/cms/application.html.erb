@@ -1,17 +1,13 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Cms</title>
-  <%= csrf_meta_tags %>
-  <%= csp_meta_tag %>
-
-  <%= yield :head %>
-
-  <%= stylesheet_link_tag    "cms/application", media: "all" %>
-</head>
-<body>
-
-<%= yield %>
-
-</body>
+  <head>
+    <title>CMS</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "cms/application", media: "all" %>
+    <%= javascript_importmap_tags if respond_to?(:javascript_importmap_tags) %>
+  </head>
+  <body>
+    <%= yield %>
+  </body>
 </html>

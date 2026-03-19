@@ -1,0 +1,22 @@
+<h1><%= t("cms.admin.sites.show.title") %></h1>
+
+<p>
+  <%= t("cms.admin.sites.show.public_url") %>:
+  <%= link_to site_path(@site.slug), site_path(@site.slug) %>
+</p>
+
+<p><strong><%= t("cms.admin.sites.show.published") %>:</strong> <%= cms_yes_no(@site.published?) %></p>
+<p><strong><%= t("cms.admin.sites.show.default_locale") %>:</strong> <%= @site.default_locale %></p>
+<p><strong><%= t("cms.admin.sites.show.available_locales") %>:</strong> <%= I18n.available_locales.map(&:to_s).join(", ") %></p>
+
+<% if @site.logo.attached? %>
+  <p><strong><%= t("cms.admin.sites.show.logo") %>:</strong></p>
+  <p><%= image_tag cms_attachment_path(@site.logo), alt: t("cms.admin.sites.show.logo_alt", site: @site.name), style: "max-width: 220px; height: auto;" %></p>
+  <p><small><%= t("cms.admin.sites.show.logo_hint") %></small></p>
+<% end %>
+
+<p>
+  <%= link_to t("cms.admin.sites.show.edit"), edit_admin_site_path %>
+  |
+  <%= link_to t("cms.admin.sites.show.manage_pages"), admin_pages_path %>
+</p>

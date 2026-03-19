@@ -1,0 +1,29 @@
+<h1><%= t("cms.admin.webhook_deliveries.index.title", url: @webhook.url) %></h1>
+<p><%= link_to t("cms.admin.webhook_deliveries.index.back"), admin_webhooks_path %></p>
+
+<% if @deliveries.empty? %>
+  <p><%= t("cms.admin.webhook_deliveries.index.empty") %></p>
+<% else %>
+  <table>
+    <thead>
+      <tr>
+        <th><%= t("cms.admin.webhook_deliveries.index.delivered_at") %></th>
+        <th><%= t("cms.admin.webhook_deliveries.index.event") %></th>
+        <th><%= t("cms.admin.webhook_deliveries.index.status") %></th>
+        <th><%= t("cms.admin.webhook_deliveries.index.response_code") %></th>
+        <th><%= t("cms.admin.webhook_deliveries.index.error") %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @deliveries.each do |delivery| %>
+        <tr>
+          <td><%= cms_datetime(delivery.delivered_at) %></td>
+          <td><%= delivery.event %></td>
+          <td><%= delivery.success? ? t("cms.shared.yes") : t("cms.shared.no") %></td>
+          <td><%= delivery.response_code.presence || t("cms.shared.empty_value") %></td>
+          <td><%= delivery.error_message.presence || t("cms.shared.empty_value") %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

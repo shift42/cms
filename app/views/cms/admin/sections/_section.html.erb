@@ -1,0 +1,22 @@
+<div class="cms-section-item"
+     id="page-section-<%= page_section.id %>"
+     data-page-section-id="<%= page_section.id %>">
+  <span class="cms-section-item__handle" title="<%= t(".drag") %>">☰</span>
+
+  <span class="cms-badge cms-badge--kind"><%= cms_section_kind_label(page_section.section.kind) %></span>
+  <span class="cms-section-item__title"><%= page_section.section.title.presence || t(".no_title") %></span>
+  <span class="cms-badge <%= page_section.section.enabled? ? 'cms-badge--enabled' : 'cms-badge--disabled' %>">
+    <%= page_section.section.enabled? ? t(".enabled") : t(".disabled") %>
+  </span>
+
+  <span class="cms-section-item__actions">
+    <%= link_to t(".edit"),
+          edit_admin_page_section_path(@page, page_section.section, locale: @translation_locale),
+          data: { turbo_frame: "cms-section-form" },
+          class: "cms-btn cms-btn--sm" %>
+    <%= link_to t(".delete"),
+          admin_page_section_path(@page, page_section.section),
+          data: { turbo_method: :delete, turbo_confirm: t(".delete_confirm") },
+          class: "cms-btn cms-btn--sm cms-btn--danger" %>
+  </span>
+</div>

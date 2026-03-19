@@ -1,0 +1,111 @@
+<% crumbs = breadcrumbs_for(@page) %>
+<% if crumbs.length > 1 %>
+  <nav class="cms-breadcrumbs">
+    <% crumbs.each_with_index do |crumb, i| %>
+      <% if i < crumbs.length - 1 %>
+        <%= link_to crumb.display_title, admin_page_path(crumb) %> &rsaquo;
+      <% else %>
+        <span><%= crumb.display_title %></span>
+      <% end %>
+    <% end %>
+  </nav>
+<% end %>
+
+<h1><%= @page.display_title %></h1>
+
+<% if @page.parent %>
+  <p><strong><%= t(".parent") %>:</strong> <%= link_to @page.parent.display_title, admin_page_path(@page.parent) %></p>
+<% end %>
+<% if @subpages.any? %>
+  <p>
+    <strong><%= t(".subpages") %>:</strong>
+    <% @subpages.each do |sub| %>
+      <%= link_to sub.display_title, admin_page_path(sub) %>
+    <% end %>
+  </p>
+<% end %>
+
+<p>
+  <%= link_to t(".back"), admin_pages_path(locale: @translation_locale) %>
+  |
+  <%= link_to t(".edit"), edit_admin_page_path(@page, locale: @translation_locale) %>
+  |
+  <%= link_to t(".section_library"), admin_sections_path(locale: @translation_locale) %>
+  |
+  <%= link_to t(".preview"), preview_admin_page_path(@page), target: "_blank" %>
+  |
+  <%= link_to t(".share_preview"), page_preview_url(@page.preview_token), target: "_blank" %>
+  <% if @page.template_key == "form" %>
+    |
+    <%= link_to t(".form_fields"), admin_page_form_fields_path(@page) %>
+    |
+    <%= link_to t(".submissions"), admin_page_form_submissions_path(@page) %>
+  <% end %>
+</p>
+
+<p>
+  <strong><%= t(".translations") %>:</strong>
+  <% @page.page_translations.each do |t| %>
+    <%= link_to t.locale.upcase, admin_page_path(@page, locale: t.locale) %>
+  <% end %>
+  &nbsp;
+  <% translation_completeness(@page).each do |locale, status| %>
+    <% unless @page.page_translations.map(&:locale).include?(locale) %>
+      <span title="<%= t(".translation_missing_title", locale: locale) %>">[<%= t(".translation_missing_badge", locale: locale.upcase) %>]</span>
+    <% end %>
+  <% end %>
+</p>
+<p><strong><%= t(".locale") %>:</strong> <%= @translation_locale %></p>
+<p><strong><%= t(".slug") %>:</strong> <%= @page.slug %></p>
+<p><strong><%= t(".template") %>:</strong> <%= cms_page_template_label(@page.template_key) %></p>
+<p><strong><%= t(".status") %>:</strong> <%= cms_page_status_label(@page.status) %></p>
+<p><strong><%= t(".home_page") %>:</strong> <%= cms_yes_no(@page.home?) %></p>
+<p><strong><%= t(".header") %>:</strong> <%= cms_yes_no(@page.show_in_header?) %></p>
+<p><strong><%= t(".footer") %>:</strong> <%= cms_yes_no(@page.show_in_footer?) %></p>
+<p><strong><%= t(".nav_group") %>:</strong> <%= @page.nav_group %></p>
+<p><strong><%= t(".meta_title") %>:</strong> <%= @page.display_meta_title.presence || t("cms.shared.empty_value") %></p>
+<p><strong><%= t(".meta_description") %>:</strong> <%= @page.seo_description.presence || t("cms.shared.empty_value") %></p>
+
+<% if @page.hero_image.attached? %>
+  <p><strong><%= t(".hero_image") %>:</strong></p>
+  <p><%= image_tag cms_attachment_path(@page.hero_image), alt: @page.display_title, style: "max-width: 420px; height: auto;" %></p>
+<% end %>
+
+<% if @page.media_files.attached? %>
+  <p><strong><%= t(".attachments") %>:</strong></p>
+  <ul>
+    <% @page.media_files.each do |file| %>
+      <li><%= link_to file.filename.to_s, file %></li>
+    <% end %>
+  </ul>
+<% end %>
+
+<%# Sections panel %>
+<section class="cms-sections-panel">
+  <h2><%= t(".content_sections") %></h2>
+
+  <%= render "cms/admin/pages/sections_list",
+             page: @page,
+             page_sections: @page_sections %>
+
+  <hr>
+
+  <details class="cms-add-section">
+    <summary class="cms-btn"><%= t(".add_section") %></summary>
+    <div class="cms-add-section__kinds">
+      <% Cms::Section::KindRegistry.registered_kinds.each do |kind| %>
+        <%= link_to cms_section_kind_label(kind),
+              new_admin_page_section_path(@page, kind: kind, locale: @translation_locale),
+              data: { turbo_frame: "cms-section-form" },
+              class: "cms-btn cms-btn--sm" %>
+      <% end %>
+    </div>
+  </details>
+
+  <%# Turbo Frame target for inline section forms %>
+  <%= render "cms/admin/pages/section_editor_frame" %>
+
+  <%= render "cms/admin/pages/attach_section_panel",
+             page: @page,
+             available_sections: @available_sections %>
+</section>

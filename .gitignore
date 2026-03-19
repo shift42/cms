@@ -3,3 +3,8 @@
 /log/*.log
 /pkg/
 /tmp/
+/spec/cms_app/log/*.log
+/spec/cms_app/storage/
+/spec/cms_app/tmp/
+/rdoc/
+/db/

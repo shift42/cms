@@ -1,0 +1,9 @@
+<% if @page %>
+  <%= turbo_frame_tag "cms-section-form" do %>
+    <h2><%= t(".title", kind: cms_section_kind_label(@section.kind)) %></h2>
+    <%= render "form" %>
+  <% end %>
+<% else %>
+  <h1><%= t(".title", kind: cms_section_kind_label(@section.kind)) %></h1>
+  <%= render "form" %>
+<% end %>

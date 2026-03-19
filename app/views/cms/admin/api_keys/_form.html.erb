@@ -1,0 +1,23 @@
+<%= form_with model: [:admin, api_key] do |f| %>
+  <% if api_key.errors.any? %>
+    <div>
+      <% api_key.errors.full_messages.each do |msg| %>
+        <p><%= msg %></p>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div>
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+
+  <div>
+    <%= f.label :active %>
+    <%= f.check_box :active %>
+  </div>
+
+  <div>
+    <%= f.submit %>
+  </div>
+<% end %>

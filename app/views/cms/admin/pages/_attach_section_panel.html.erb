@@ -1,0 +1,20 @@
+<div id="cms-attach-section-panel">
+  <% if available_sections.any? %>
+    <hr>
+
+    <%= form_with url: admin_page_attach_section_path(page), method: :post, local: true do |f| %>
+      <p>
+        <%= f.label :section_id, t("cms.admin.pages.show.attach_existing") %><br>
+        <%= f.select :section_id,
+                     available_sections.map do |section|
+                       ["#{cms_section_kind_label(section.kind)}: #{section.title.presence || t("cms.admin.pages.show.no_title")}", section.id]
+                     end,
+                     include_blank: t("cms.admin.pages.show.select_global") %>
+      </p>
+
+      <p>
+        <%= f.submit t("cms.admin.pages.show.attach"), class: "cms-btn cms-btn--sm" %>
+      </p>
+    <% end %>
+  <% end %>
+</div>

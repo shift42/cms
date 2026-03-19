@@ -1,0 +1,36 @@
+<h1><%= t(".title") %></h1>
+
+<p><%= link_to t(".new"), new_admin_api_key_path %></p>
+
+<% if @api_keys.any? %>
+  <table>
+    <thead>
+      <tr>
+        <th><%= t(".name") %></th>
+        <th><%= t(".active") %></th>
+        <th><%= t(".last_used") %></th>
+        <th><%= t(".created") %></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @api_keys.each do |key| %>
+        <tr>
+          <td><%= key.name %></td>
+          <td><%= cms_yes_no(key.active?) %></td>
+          <td><%= key.last_used_at ? cms_datetime(key.last_used_at) : t(".never") %></td>
+          <td><%= cms_date(key.created_at) %></td>
+          <td>
+            <%= link_to t(".edit"), edit_admin_api_key_path(key) %>
+            |
+            <%= link_to t(".delete"),
+                        admin_api_key_path(key),
+                        data: { turbo_method: :delete, turbo_confirm: t(".delete_confirm") } %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p><%= t(".empty") %></p>
+<% end %>

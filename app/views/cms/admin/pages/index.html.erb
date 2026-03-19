@@ -1,0 +1,62 @@
+<h1><%= t(".title") %></h1>
+
+<p>
+  <%= link_to t(".site_settings"), admin_site_path %>
+  |
+  <%= link_to t(".new"), new_admin_page_path(locale: params[:locale]) %>
+</p>
+
+<%= form_with url: admin_pages_path, method: :get, local: true do |f| %>
+  <p>
+    <%= f.text_field :q, value: params[:q], placeholder: t(".search_placeholder") %>
+    <%= f.submit t(".search") %>
+    <% if params[:q].present? %>
+      <%= link_to t(".clear"), admin_pages_path %>
+    <% end %>
+  </p>
+<% end %>
+
+<p><%= t(".intro") %></p>
+
+<% if @page_rows.empty? %>
+  <p>
+    <%= params[:q].present? ? t(".empty_search") : t(".empty") %>
+  </p>
+<% else %>
+  <table>
+    <thead>
+      <tr>
+        <th><%= t(".title_heading") %></th>
+        <th><%= t(".slug") %></th>
+        <th><%= t(".template") %></th>
+        <th><%= t(".status") %></th>
+        <th><%= t(".nav") %></th>
+        <th><%= t(".actions") %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @page_rows.each do |page, depth| %>
+        <tr>
+          <td style="padding-left: <%= depth * 1.5 %>rem;"><%= page.display_title %></td>
+          <td><%= page.slug %></td>
+          <td><%= cms_page_template_label(page.template_key) %></td>
+          <td><%= cms_page_status_label(page.status) %></td>
+          <td>
+            <% nav_items = [] %>
+            <% nav_items << t(".header") if page.show_in_header? %>
+            <% nav_items << t(".footer") if page.show_in_footer? %>
+            <%= nav_items.join(" / ") %>
+            <%= " (#{page.nav_group})" unless page.nav_group == "main" %>
+          </td>
+          <td>
+            <%= link_to t(".view"), admin_page_path(page, locale: params[:locale]) %>
+            <%= link_to t(".edit"), edit_admin_page_path(page, locale: params[:locale]) %>
+            <%= link_to t(".delete"),
+                        admin_page_path(page, locale: params[:locale]),
+                        data: { turbo_method: :delete, turbo_confirm: t(".delete_confirm") } %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

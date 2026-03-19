@@ -1,0 +1,38 @@
+<%= form_with model: [:admin, webhook] do |f| %>
+  <% if webhook.errors.any? %>
+    <div>
+      <% webhook.errors.full_messages.each do |msg| %>
+        <p><%= msg %></p>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div>
+    <%= f.label :url, t(".url") %>
+    <%= f.url_field :url %>
+  </div>
+
+  <div>
+    <%= f.label :secret, t(".secret") %>
+    <%= f.text_field :secret %>
+  </div>
+
+  <div>
+    <p><strong><%= t(".events") %></strong></p>
+    <% Cms::Webhook::EVENTS.each do |event| %>
+      <label>
+        <%= check_box_tag "webhook[events][]", event, webhook.events.include?(event) %>
+        <%= cms_webhook_event_label(event) %>
+      </label>
+    <% end %>
+  </div>
+
+  <div>
+    <%= f.label :active %>
+    <%= f.check_box :active %>
+  </div>
+
+  <div>
+    <%= f.submit %>
+  </div>
+<% end %>

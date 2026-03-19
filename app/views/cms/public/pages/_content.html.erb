@@ -1,0 +1,48 @@
+<h1><%= @page.display_title %></h1>
+
+<% if @page.hero_image.attached? %>
+  <p><%= image_tag cms_attachment_path(@page.hero_image), alt: @page.display_title, style: "max-width: 900px; height: auto;" %></p>
+<% end %>
+
+<% if @submission&.errors&.any? %>
+  <section>
+    <h2><%= t("cms.public.forms.submission_problem") %></h2>
+    <ul>
+      <% @submission.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </section>
+<% end %>
+
+<% @sections.each do |section| %>
+  <%= render_section(section) %>
+<% end %>
+
+<% if @form_fields.any? %>
+  <section>
+    <h2><%= t("cms.public.forms.contact") %></h2>
+    <%= form_with url: page_form_submissions_path(@page, site_slug: @site.slug), scope: :submission, local: true do |form| %>
+      <% @form_fields.each do |field| %>
+        <p>
+          <label for="<%= field.field_name %>"><%= field.label %></label><br>
+          <% value = @submission.data.to_h[field.field_name] %>
+          <% case field.kind %>
+          <% when "textarea" %>
+            <%= form.text_area field.field_name, value: value, placeholder: field.placeholder %>
+          <% when "select" %>
+            <%= form.select field.field_name, options_for_select(field.parsed_options, value), include_blank: true %>
+          <% when "checkbox" %>
+            <%= form.check_box field.field_name, { checked: value.to_s == "1" }, "1", "0" %>
+          <% else %>
+            <%= form.text_field field.field_name, value: value, type: field.kind, placeholder: field.placeholder %>
+          <% end %>
+        </p>
+      <% end %>
+
+      <p>
+        <%= form.submit t("cms.public.forms.send") %>
+      </p>
+    <% end %>
+  </section>
+<% end %>

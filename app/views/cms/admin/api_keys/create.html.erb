@@ -1,0 +1,9 @@
+<h1><%= t(".title") %></h1>
+
+<p>
+  <strong><%= t(".token_warning") %></strong>
+</p>
+
+<pre><code><%= @new_token %></code></pre>
+
+<p><%= link_to t(".back"), admin_api_keys_path %></p>

@@ -1,0 +1,390 @@
+en:
+  date:
+    formats:
+      cms_date: "%d %b %Y"
+  time:
+    formats:
+      cms_csv_datetime: "%Y-%m-%d %H:%M"
+      cms_datetime: "%d %b %Y %H:%M"
+  cms:
+    shared:
+      empty_value: "-"
+      no: "No"
+      yes: "Yes"
+    errors:
+      admin_parent_controller_required: "Cms admin requires config.admin_parent_controller in production. Point it at a host controller that enforces authentication, for example \"Admin::BaseController\"."
+      current_site_required: "Cms admin requires config.current_site_resolver to return a Cms::Site. Configure it in Cms.setup so admin requests resolve the active CMS site explicitly."
+      page_not_found: "Page not found"
+      record_not_found: "The requested record was not found."
+      site_slug_not_provided: "CMS site slug not provided"
+      api:
+        site_not_found: "Site not found"
+        page_not_found: "Page not found"
+        unauthorized: "Unauthorized"
+      form_field:
+        invalid_field_name: "only lowercase letters, numbers and underscores"
+      form_submission:
+        blank: "Please complete at least one field."
+        required: "%{label} is required"
+      document:
+        invalid_file_type: "must be a supported document file"
+      image:
+        invalid_file_type: "must be a valid image file"
+      section:
+        setting_required: "%{name} is required"
+        invalid_image: "contains an image that is not available for this site"
+        global_section_requires_attachment: "A global section must stay attached to at least one page."
+      page:
+        sections_required: "Published pages must have at least one section."
+      site:
+        default_locale_unavailable: "is not included in I18n.available_locales"
+      webhook:
+        unsupported_events: "contains unsupported values: %{events}"
+    notices:
+      form_submission_sent: "Your message has been sent."
+      site_created: "Site created."
+      site_updated: "Site updated."
+      page_created: "Page created."
+      page_updated: "Page updated."
+      page_deleted: "Page deleted."
+      section_added: "Section added."
+      section_created: "Section created."
+      section_updated: "Section updated."
+      section_deleted: "Section deleted."
+      section_removed: "Section removed from page."
+      section_attached: "Section attached."
+      field_added: "Field added."
+      field_updated: "Field updated."
+      field_removed: "Field removed."
+      submission_deleted: "Submission deleted."
+      image_uploaded: "Image uploaded."
+      image_updated: "Image updated."
+      image_deleted: "Image deleted."
+      document_uploaded: "Document uploaded."
+      document_updated: "Document updated."
+      document_deleted: "Document deleted."
+      api_key_updated: "API key updated."
+      api_key_deleted: "API key deleted."
+      webhook_created: "Webhook created."
+      webhook_updated: "Webhook updated."
+      webhook_deleted: "Webhook deleted."
+    mailers:
+      form_submission:
+        subject: "New form submission - %{page_title}"
+    form_field_kinds:
+      checkbox: "Checkbox"
+      email: "Email"
+      select: "Select"
+      text: "Text"
+      textarea: "Textarea"
+    form_submission_mailer:
+      notify:
+        submitted_at: "Submitted at"
+        title: "New form submission — %{page}"
+    page_statuses:
+      archived: "Archived"
+      draft: "Draft"
+      published: "Published"
+    page_templates:
+      custom: "Custom"
+      form: "Form"
+      landing: "Landing"
+      standard: "Standard"
+    public:
+      forms:
+        send: "Send"
+        contact: "Contact"
+        submission_problem: "There was a problem with your submission"
+    section_kinds:
+      cta: "Call to action"
+      hero: "Hero"
+      image: "Image"
+      rich_text: "Rich text"
+    section_settings:
+      labels:
+        alignment: "Alignment"
+        alt_text: "Alt text"
+        background_color: "Background color"
+        button_text: "Button text"
+        button_url: "Button URL"
+        caption: "Caption"
+        cta_text: "CTA text"
+        cta_url: "CTA URL"
+        image_url: "Image URL"
+      options:
+        alignment:
+          center: "Center"
+          left: "Left"
+          right: "Right"
+    webhook_events:
+      page_published: "Page published"
+      page_unpublished: "Page unpublished"
+    admin:
+      api_keys:
+        create:
+          back: "Back to API keys"
+          title: "API Key Created"
+          token_warning: "Copy your API token now — it will not be shown again:"
+        edit:
+          back: "Back"
+          title: "Edit API Key"
+        index:
+          active: "Active"
+          created: "Created"
+          delete: "Delete"
+          delete_confirm: "Delete this API key?"
+          edit: "Edit"
+          empty: "No API keys yet."
+          last_used: "Last used"
+          name: "Name"
+          never: "Never"
+          new: "New API Key"
+          title: "API Keys"
+        new:
+          back: "Back"
+          title: "New API Key"
+      documents:
+        edit:
+          title: "Edit Document — %{title}"
+        form:
+          cancel: "Cancel"
+          current: "Current"
+          file: "File"
+        index:
+          actions: "Actions"
+          delete: "Delete"
+          delete_confirm: "Delete this document?"
+          description: "Description"
+          edit: "Edit"
+          empty: "No documents yet."
+          file: "File"
+          title: "Documents"
+          title_heading: "Title"
+          upload: "Upload document"
+        new:
+          title: "Upload Document"
+      form_fields:
+        edit:
+          title: "Edit field — %{label}"
+        form:
+          cancel: "Cancel"
+          field_name: "Field name (snake_case, used as data key)"
+          hint: "Hint text shown below the field"
+          options: "Options (for select fields, one per line)"
+        index:
+          actions: "Actions"
+          back: "Back to page"
+          delete: "Delete"
+          delete_confirm: "Delete this field?"
+          edit: "Edit"
+          empty: "No fields yet. Add fields to build your form."
+          field_name: "Field name"
+          kind: "Kind"
+          label: "Label"
+          new: "New field"
+          required: "Required"
+          submissions: "View submissions"
+          title: "Form fields — %{page}"
+        new:
+          title: "New form field — %{page}"
+      form_submissions:
+        index:
+          actions: "Actions"
+          back: "Back to form fields"
+          delete: "Delete"
+          delete_confirm: "Delete this submission?"
+          empty: "No submissions yet."
+          export: "Export CSV"
+          submitted_at: "Submitted at"
+          title: "Submissions — %{page}"
+      images:
+        edit:
+          title: "Edit Image — %{title}"
+        form:
+          alt_text: "Alt text"
+          cancel: "Cancel"
+          file: "Image file"
+          translation: "Translation (%{locale})"
+        index:
+          delete: "Delete"
+          delete_confirm: "Delete this image?"
+          edit: "Edit"
+          empty: "No images yet."
+          title: "Images"
+          upload: "Upload image"
+        new:
+          title: "Upload Image"
+      pages:
+        edit:
+          title: "Edit Page"
+        form:
+          cancel: "Cancel"
+          current_files: "Current files"
+          media_files: "Gallery/attachments"
+          no_parent: "— none (root page)"
+          parent_page: "Parent page"
+          remove_hero_image: "Remove hero image"
+          remove_media_files: "Remove all gallery/attachments"
+          seo_description: "SEO description"
+          seo_title: "SEO title"
+          template: "Template"
+          title: "Title"
+          translation: "Translation (%{locale})"
+          translation_title: "Title"
+        index:
+          actions: "Actions"
+          clear: "Clear"
+          delete: "Delete"
+          delete_confirm: "Delete this page?"
+          edit: "Edit"
+          empty: "No pages yet. Create your first page to start building the site."
+          empty_search: "No pages matched your search."
+          footer: "footer"
+          header: "header"
+          intro: "Pages are listed in site order. Use parent pages for simple hierarchies and search when you need to jump straight to one page."
+          nav: "Nav"
+          new: "New page"
+          search: "Search"
+          search_placeholder: "Search by title or slug…"
+          site_settings: "Website settings"
+          slug: "Slug"
+          status: "Status"
+          template: "Template"
+          title: "Pages"
+          title_heading: "Title"
+          view: "View"
+        new:
+          title: "New Page"
+        show:
+          add_section: "+ Add section"
+          attach: "Attach section"
+          attach_existing: "Attach global section"
+          attachments: "Attachments"
+          back: "Back"
+          content_sections: "Content sections"
+          edit: "Edit"
+          footer: "Footer"
+          form_fields: "Form fields"
+          header: "Header"
+          hero_image: "Hero image"
+          home_page: "Home page"
+          locale: "Locale"
+          meta_description: "Meta description"
+          meta_title: "Meta title"
+          nav_group: "Nav group"
+          no_title: "(no title)"
+          parent: "Parent"
+          preview: "Preview"
+          share_preview: "Share preview"
+          section_hint: "Select a section type above to add content."
+          select_global: "Select a global section"
+          slug: "Slug"
+          status: "Status"
+          submissions: "Submissions"
+          subpages: "Subpages"
+          template: "Template"
+          translation_missing_badge: "%{locale}: missing"
+          translation_missing_title: "%{locale}: missing"
+          translations: "Translations"
+      sections:
+        edit:
+          title: "Edit section — %{kind}"
+        form:
+          add: "Add section"
+          cancel: "Cancel"
+          content: "Content"
+          content_placeholder: "Rich text content"
+          image_library_empty: "Upload images in the media library before using this block."
+          kind: "Kind"
+          manage_images: "Manage images"
+          select_image: "Select image"
+          settings: "Block settings"
+          upload_image: "Upload image"
+          update: "Update section"
+        index:
+          actions: "Actions"
+          back: "Back to pages"
+          delete: "Delete"
+          delete_confirm: "Delete this section everywhere it is used?"
+          disabled: "Disabled"
+          edit: "Edit"
+          empty: "No global sections yet."
+          enabled: "Enabled"
+          intro: "Manage site-wide global sections here and attach them to pages where needed."
+          kind: "Kind"
+          new: "New global section"
+          no_title: "(no title)"
+          status: "Status"
+          title: "Sections"
+          title_heading: "Title"
+          unused: "Not attached"
+          usage: "Used on"
+        new:
+          title: "Add section — %{kind}"
+        show:
+          details: "Section details"
+          global: "Global"
+          no_translation: "No translation for this locale."
+        section:
+          delete: "Delete"
+          delete_confirm: "Remove this section?"
+          disabled: "Disabled"
+          drag: "Drag to reorder"
+          edit: "Edit"
+          enabled: "Enabled"
+          no_title: "(no title)"
+      sites:
+        new:
+          title: "Create Website"
+          intro: "Create the first CMS site before managing pages, media, and settings."
+        edit:
+          title: "Edit Website Settings"
+        show:
+          title: "Website Settings"
+          public_url: "Public URL"
+          published: "Published"
+          default_locale: "Default locale"
+          available_locales: "Available locales"
+          logo: "Logo"
+          logo_alt: "%{site} logo"
+          logo_hint: "The logo is also used as the site's favicon."
+          edit: "Edit site"
+          manage_pages: "Manage pages"
+        form:
+          logo_alt: "%{site} logo"
+          logo_hint: "Used for both the site logo and favicon."
+          remove_logo: "Remove logo"
+          create: "Create site"
+          save: "Save"
+          cancel: "Cancel"
+      webhook_deliveries:
+        index:
+          back: "Back to webhooks"
+          delivered_at: "Delivered at"
+          empty: "No deliveries yet."
+          error: "Error"
+          event: "Event"
+          response_code: "Response code"
+          status: "Success"
+          title: "Deliveries — %{url}"
+      webhooks:
+        edit:
+          back: "Back"
+          title: "Edit Webhook"
+        form:
+          events: "Events"
+          secret: "Secret (optional — used for HMAC signature)"
+          url: "Endpoint URL"
+        index:
+          active: "Active"
+          delete: "Delete"
+          delete_confirm: "Delete this webhook?"
+          edit: "Edit"
+          empty: "No webhooks yet."
+          events: "Events"
+          new: "New Webhook"
+          title: "Webhooks"
+          url: "URL"
+        new:
+          back: "Back"
+          title: "New Webhook"

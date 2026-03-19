@@ -1,0 +1,17 @@
+<%= turbo_stream.replace "cms-sections-list" do %>
+  <%= render "cms/admin/pages/sections_list",
+             page: @page,
+             page_sections: @page_sections %>
+<% end %>
+
+<%= turbo_stream.replace "cms-section-form" do %>
+  <%= render "cms/admin/pages/section_editor_frame" %>
+<% end %>
+
+<%= turbo_stream.replace "cms-attach-section-panel" do %>
+  <%= render "cms/admin/pages/attach_section_panel",
+             page: @page,
+             available_sections: @available_sections %>
+<% end %>
+
+<%= turbo_stream.replace "flash", partial: "shared/alerts" %>
